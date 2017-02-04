@@ -1,0 +1,38 @@
+language: cpp
+compiler:
+  - gcc
+
+os:
+  - linux
+  # - osx
+
+env:
+  global:
+    - CXX=g++
+    - CC=gcc
+
+dist: trusty
+sudo: required
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+      # - llvm-toolchain-precise
+    packages:
+      # - clang-3.8
+      # - clang-format-3.8
+
+git:
+  # Handled in cg-build
+  submodules: false
+
+before_install:
+
+before_script:
+  # Dump useful info.
+  - $CXX --version
+  # Prepare environment (pull dependencies, build tools).
+  - travis_retry python cg-build.py setup
+
+script:
+  - python cg-build.py build --config=release
