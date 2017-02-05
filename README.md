@@ -9,6 +9,7 @@ This repository is full of incredibly boring coursework. Woo!
 Open a terminal in the project root, and run:
 ```
 Run once:
+$ sudo apt-get install clang-3.8 libc++-dev
 $ python cg-build.py setup
 
 $ python cg-build.py build

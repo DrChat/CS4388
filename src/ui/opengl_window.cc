@@ -1,5 +1,7 @@
 #include "src/ui/opengl_window.h"
 
+#include <memory>
+
 namespace cg {
 namespace ui {
 

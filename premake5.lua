@@ -12,12 +12,16 @@ targetdir(build_bin)
 objdir(build_obj)
 
 -- Qt Setup
-qtmodules {"core", "gui", "widgets", "opengl"}
+qtmodules {"core", "gui", "widgets"}
 qtprefix "Qt5"
 
-configuration {"Debug"}
+filter("platforms:Windows")
+  qtmodules {"opengl"}
+filter {}
+
+filter({"configurations:Debug", "platforms:Windows"})
   qtsuffix "d"
-configuration {}
+filter {}
 
 includedirs({
   ".",
@@ -87,10 +91,12 @@ filter({"configurations:Release", "platforms:Windows"})
 filter("platforms:Linux")
   system("linux")
   toolset("clang")
+  pic "On"
 
 filter({"platforms:Linux", "language:C++"})
   buildoptions({
-    "-std=c++1y",
+    "-std=c++14",
+    "-stdlib=libc++",
   })
 
 filter("platforms:Windows")
@@ -138,6 +144,6 @@ solution("CGraphics")
   end
   configurations({"Checked", "Debug", "Release"})
 
-  include("src/assign1")
   include("src/core")
   include("src/ui")
+  include("src/assign1")

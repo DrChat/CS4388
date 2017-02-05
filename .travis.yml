@@ -1,6 +1,6 @@
 language: cpp
-compiler:
-  - gcc
+# compiler:
+#   - clang
 
 os:
   - linux
@@ -8,8 +8,7 @@ os:
 
 env:
   global:
-    - CXX=g++
-    - CC=gcc
+    - QTDIR=/opt/qt58
 
 dist: trusty
 sudo: required
@@ -17,10 +16,14 @@ addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
-      # - llvm-toolchain-precise
+      - llvm-toolchain-trusty
+      - sourceline: 'ppa:beineri/opt-qt58-trusty'
     packages:
-      # - clang-3.8
-      # - clang-format-3.8
+      - clang-3.8
+      - clang-format-3.8
+      - llvm-3.8-dev
+      - libc++-dev
+      - qt58-meta-full
 
 git:
   # Handled in cg-build
@@ -29,10 +32,14 @@ git:
 before_install:
 
 before_script:
+  - CXX=clang++-3.8
+  - CC=clang-3.8
   # Dump useful info.
   - $CXX --version
   # Prepare environment (pull dependencies, build tools).
   - travis_retry python cg-build.py setup
+  - QT_ENV_SCRIPT=$(find /opt -name 'qt*-env.sh')
+  - source $QT_ENV_SCRIPT
 
 script:
   - python cg-build.py build --config=release
