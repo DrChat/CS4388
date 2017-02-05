@@ -26,7 +26,7 @@ static const char kFragmentShader[] = R"(
 layout(location = 0) out vec4 color;
 
 void main() {
-  color = vec4(gl_FragCoord.xy, 0.0, 1.0);
+  color = vec4(1.0, 0.0, 0.0, 1.0);
 }
 )";
 
@@ -67,6 +67,18 @@ class MainWindow : public ui::OpenGLWindow {
         -0.2f, -0.2f,  // tr
     };
 
+    // Hexagon
+    GLfloat hexa_verts[16];
+    std::memset(hexa_verts, 0xCC, sizeof(hexa_verts));
+    hexa_verts[0] = -0.5f;
+    hexa_verts[1] = 0.5f;
+    for (int i = 0; i < 7; i++) {
+      hexa_verts[(i + 1) * 2 + 0] =
+          hexa_verts[0] + sin(i / 6.f * 2.f * 3.14159f) / 2.f;
+      hexa_verts[(i + 1) * 2 + 1] =
+          hexa_verts[1] + cos(i / 6.f * 2.f * 3.14159f) / 2.f;
+    }
+
     glGenVertexArrays(1, &vao_);
     glBindVertexArray(vao_);
 
@@ -76,8 +88,9 @@ class MainWindow : public ui::OpenGLWindow {
     GLintptr offset = 0;
 
     // Uh... reserve the data? Intel crashes without this.
-    glBufferData(GL_ARRAY_BUFFER, sizeof(tri_verts) + sizeof(rect_verts), NULL,
-                 GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER,
+                 sizeof(tri_verts) + sizeof(rect_verts) + sizeof(hexa_verts),
+                 NULL, GL_STATIC_DRAW);
 
     glBufferSubData(GL_ARRAY_BUFFER, offset, sizeof(tri_verts), tri_verts);
     tri_offset_ = offset;
@@ -86,6 +99,10 @@ class MainWindow : public ui::OpenGLWindow {
     glBufferSubData(GL_ARRAY_BUFFER, offset, sizeof(rect_verts), rect_verts);
     rect_offset_ = offset;
     offset += sizeof(rect_verts);
+
+    glBufferSubData(GL_ARRAY_BUFFER, offset, sizeof(hexa_verts), hexa_verts);
+    hexa_offset_ = offset;
+    offset += sizeof(hexa_verts);
 
     glBindVertexArray(0);
 
@@ -105,7 +122,7 @@ class MainWindow : public ui::OpenGLWindow {
     glBindVertexArray(vao_);
     glEnableVertexAttribArray(program_vpos_attr_);
 
-    //glBindBuffer(GL_ARRAY_BUFFER, vbo_);
+    // glBindBuffer(GL_ARRAY_BUFFER, vbo_);
     glVertexAttribPointer(program_vpos_attr_, 2, GL_FLOAT, GL_FALSE, 0,
                           (void*)tri_offset_);
 
@@ -115,6 +132,11 @@ class MainWindow : public ui::OpenGLWindow {
                           (void*)rect_offset_);
 
     glDrawArrays(GL_TRIANGLES, 0, 6);
+
+    glVertexAttribPointer(program_vpos_attr_, 2, GL_FLOAT, GL_FALSE, 0,
+                          (void*)hexa_offset_);
+
+    glDrawArrays(GL_TRIANGLE_FAN, 0, 8);
 
     glDisableVertexAttribArray(program_vpos_attr_);
 
