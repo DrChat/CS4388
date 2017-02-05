@@ -8,15 +8,9 @@ project("CG-ui")
   kind("StaticLib")
   language("C++")
   qt.enable()
-  qtpath "C:\\Qt\\5.7\\msvc2015_64"
-  qtmodules {"core", "gui", "widgets", "opengl"}
-  qtprefix "Qt5"
-
-  configuration {"Debug"}
-    qtsuffix "d"
-  configuration {}
 
   links({
+    "cg-core",
   })
   defines({
   })
