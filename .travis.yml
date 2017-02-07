@@ -42,4 +42,4 @@ before_script:
   - source $QT_ENV_SCRIPT
 
 script:
-  - python cg-build.py build --config=release
+  - python cg-build.py build --config=debug
