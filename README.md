@@ -6,6 +6,8 @@ Linux | [![Build Status](https://travis-ci.org/DrChat/CS4388.svg?branch=master)]
 This repository is full of incredibly boring coursework. Woo!
 
 ## How to Build
+Prerequisites: [Qt 5.8](https://www.qt.io/download-open-source/)
+
 Open a terminal in the project root, and run:
 ```
 Run once:
