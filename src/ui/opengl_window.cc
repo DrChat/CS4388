@@ -2,10 +2,12 @@
 
 #include <memory>
 
+#ifdef _WIN32
 // Force the use of dedicated graphics on hybrid nvidia systems.
 extern "C" {
-_declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
+__declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
 }
+#endif
 
 namespace cg {
 namespace ui {
