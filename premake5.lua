@@ -3,8 +3,8 @@ include("tools/build")
 require("third_party/premake-export-compile-commands/export-compile-commands")
 require("third_party/premake-qt/qt")
 
-if os.is("windows") and os.isdir("C:\\Qt\\5.7\\msvc2015_64") then
-  qtpath "C:\\Qt\\5.7\\msvc2015_64"
+if os.is("windows") and os.isdir("C:\\Qt\\5.8\\msvc2015_64") then
+  qtpath "C:\\Qt\\5.8\\msvc2015_64"
 end
 
 location(build_root)
@@ -147,3 +147,4 @@ solution("CGraphics")
   include("src/core")
   include("src/ui")
   include("src/assign1")
+  include("src/assign2")

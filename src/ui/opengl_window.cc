@@ -2,6 +2,11 @@
 
 #include <memory>
 
+// Force the use of dedicated graphics on hybrid nvidia systems.
+extern "C" {
+_declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
+}
+
 namespace cg {
 namespace ui {
 

@@ -7,6 +7,9 @@
 
 #include "src/ui/opengl_window.h"
 
+
+namespace cg {
+
 static const char kVertexShader[] = R"(
 #version 330
 
@@ -29,8 +32,6 @@ layout(location = 0) out vec4 color;
 void main() {
   color = vec4(1.0, 0.0, 0.0, 1.0);
 })";
-
-namespace cg {
 
 class MainWindow : public ui::OpenGLWindow {
  public:
